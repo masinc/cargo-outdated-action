@@ -1,0 +1,5 @@
+name: "cargo outdated"
+description: ""
+runs:
+  using: docker
+  image: Dockerfile
