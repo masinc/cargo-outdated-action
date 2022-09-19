@@ -1,0 +1,8 @@
+version: "3"
+tasks:
+  build:
+    cmds:
+      - docker build ./baseimage -t masinc/cargo-outdated
+  publish:
+    cmds:
+      - docker publish masinc/cargo-outdated
