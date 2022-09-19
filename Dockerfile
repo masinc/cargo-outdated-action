@@ -1,4 +1,4 @@
-FROM rust:slim-buster
+FROM rust:buster
 
 RUN cargo install --locked cargo-outdated
 
