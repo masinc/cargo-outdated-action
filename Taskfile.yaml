@@ -5,4 +5,4 @@ tasks:
       - docker build ./baseimage -t masinc/cargo-outdated
   publish:
     cmds:
-      - docker publish masinc/cargo-outdated
+      - docker push masinc/cargo-outdated
