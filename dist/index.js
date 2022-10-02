@@ -9717,6 +9717,7 @@ async function main() {
     try {
         pr = await execFile('cargo', ['outdated', '-R', '--exit-code=1', '--color=always'])
     } catch {
+        or = await execFile('cargo', ['outdated', '-R', '--color=always'])
         await fetch(process.env.DISCORD_WEBHOOK, {
             method: 'POST',
             headers: {
