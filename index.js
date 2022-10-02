@@ -23,7 +23,7 @@ async function main() {
             })
         })
     } finally {
-        console.log(pr.stdout)
+        console.log(pr)
     }
 }
 
