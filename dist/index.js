@@ -9732,7 +9732,7 @@ async function main() {
     }
 }
 
-main.catch(err => core.setFailed(err.message));
+main().catch(err => core.setFailed(err.message));
 
 })();
 
