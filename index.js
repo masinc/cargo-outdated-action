@@ -5,6 +5,8 @@ const process = require('node:process');
 const util = require('node:util');
 const execFile = util.promisify(require('node:child_process').execFile);
 
+const fetch = require('node-fetch');
+
 async function main() {
     let pr;
 
