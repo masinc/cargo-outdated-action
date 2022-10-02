@@ -1,5 +1,0 @@
-FROM masinc/cargo-outdated
-
-COPY entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]

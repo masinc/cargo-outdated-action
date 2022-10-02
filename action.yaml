@@ -1,5 +1,5 @@
 name: "cargo outdated"
 description: ""
 runs:
-  using: docker
-  image: Dockerfile
+  using: node16
+  main: main.js
