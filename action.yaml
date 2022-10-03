@@ -1,5 +1,9 @@
 name: "cargo outdated"
 description: ""
+inputs: 
+  discord_webhook_url:
+    description: discord webhook url
+    required: true
 runs:
   using: node16
-  main: dist/index.js
+  main: index.js

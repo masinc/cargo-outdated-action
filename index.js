@@ -1,32 +1,50 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+import process from 'node:process';
+import child_process from 'node:child_process';
+import path from 'node:path';
 
-const process = require('node:process');
-const util = require('node:util');
-const execFile = util.promisify(require('node:child_process').execFile);
+async function exec(cmds) {
+    const [cmd, ...args] = cmds;
 
-const fetch = require('node-fetch');
+    return new Promise((resolve, reject) => {
+        const spawn = child_process.spawn(cmd, args, {
+            shell: process.platform === 'win32'
+        });
 
-async function main() {
-    let pr;
+        spawn.stdout.on('data', (chunk) => {
+            process.stdout.write(chunk.toString());
+        });
 
-    try {
-        pr = await execFile('cargo', ['outdated', '-R', '--exit-code=1', '--color=always'])
-    } catch {
-        pr = await execFile('cargo', ['outdated', '-R', '--color=always'])
-        await fetch(process.env.DISCORD_WEBHOOK, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: github.context.repo.repo,
-                content: '```' + `${pr.stdout}` + '```'
-            })
+        spawn.stderr.on('data', (chunk) => {
+            process.stderr.write(chunk.toString());
         })
-    } finally {
-        console.log(pr)
-    }
+
+        spawn.on('close', (code) => {
+            if ((code ?? 0) === 0) {
+                resolve()
+            } else {
+                reject(`error code: ${code}`);
+            }
+        });
+
+        spawn.on('error', reject);
+    })
+
 }
 
-main().catch(err => core.setFailed(err.message));
+async function main() {
+
+    const repo = process.env['GITHUB_ACTION_REPOSITORY'];
+    const repoUrl = process.env['GITHUB_SERVER_URL'] + '/' + repo;
+    const dir = path.join('/tmp/', repo);
+    const branch = 'main';
+
+    await exec(['git', 'clone', '--depth=1', '--single-branch', '--branch', branch, repoUrl, dir]);
+    process.chdir(dir);
+
+    await exec(['npm', 'run', 'start']);
+}
+
+main().catch(err => {
+    console.error(err);
+    process.exit(1);
+});
