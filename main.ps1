@@ -20,3 +20,5 @@ Invoke-WebRequest `
     -Body ($body | ConvertTo-Json )  `
     -Uri $env:DISCORD_WEBHOOK_URL `
     > $null
+
+exit $LASTEXITCODE
