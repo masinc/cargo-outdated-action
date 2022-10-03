@@ -18,4 +18,5 @@ Invoke-WebRequest `
     -Method Post `
     -ContentType "application/json" `
     -Body ($body | ConvertTo-Json )  `
-    -Uri $env:DISCORD_WEBHOOK_URL
+    -Uri $env:DISCORD_WEBHOOK_URL `
+    > $null
