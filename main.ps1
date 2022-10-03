@@ -8,10 +8,10 @@ if ($LASTEXITCODE -eq 0) {
 
 # send discord
 
-$content = (cargo outdated --root-deps-only)
+$content = (cargo outdated --root-deps-only) -join "`n"
 $body = @{
     "username" = $env:GITHUB_REPOSITORY
-    "content" = $content
+    "content" = '```' + $content + '```'
 }
 
 Invoke-WebRequest `
