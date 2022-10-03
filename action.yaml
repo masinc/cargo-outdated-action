@@ -1,5 +1,9 @@
 name: "cargo outdated"
 description: "cargo outdated"
+inputs:
+  root_depth_only:
+    description: Check root dependencies only (If enabled, specify "true")
+    default: "false"
 runs:
   using: node16
   main: index.js

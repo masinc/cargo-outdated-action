@@ -8,7 +8,11 @@ if ($LASTEXITCODE -eq 0) {
 
 # send discord
 
-$content = (cargo outdated --root-deps-only) -join "`n"
+if ($env:INPUT_ROOT_DEPTH_ONLY -eq "true") {
+    $content = (cargo outdated) -join "`n"
+} else {
+    $content = (cargo outdated --root-deps-only) -join "`n"
+}
 $body = @{
     "username" = $env:GITHUB_REPOSITORY
     "content" = '```' + $content + '```'
